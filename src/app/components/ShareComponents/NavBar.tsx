@@ -47,7 +47,7 @@ function NavBar() {
 
   return (
     <nav className="border-b border-[#24262a] bg-[#0d0f10] shadow-sm">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3 lg:px-6">
+      <div className="flex items-center justify-between px-4 lg:px-20 py-3 lg:px-6">
         <div className="flex flex-1 items-center">
           <Link href="/" className="flex items-center gap-2">
             <Image src={Logo} alt="Fitlog Logo" width={28} height={28} />

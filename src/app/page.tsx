@@ -1,6 +1,9 @@
+import BannarSection from "./components/HomeComponents/BannarSection";
 
 export default function Home() {
   return (
-    <div>Hello</div>
+    <div className="bg-[]">
+      <BannarSection/>
+    </div>
   );
 }

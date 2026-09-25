@@ -46,7 +46,7 @@ function NavBar() {
   );
 
   return (
-    <nav className="border-b border-[#24262a] bg-[#0d0f10] shadow-sm">
+    <nav className=" sticky top-0 z-50 border-b border-[#24262a] bg-[#0d0f10] shadow-sm">
       <div className="flex items-center justify-between px-4 lg:px-20 py-3 lg:px-6">
         <div className="flex flex-1 items-center">
           <Link href="/" className="flex items-center gap-2">

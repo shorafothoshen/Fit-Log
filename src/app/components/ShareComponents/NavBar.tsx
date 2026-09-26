@@ -2,18 +2,19 @@
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PlansContext } from "@/app/context/PlansContext";
 
 function NavBar() {
-
-  const {planCount,SavedCount} = useContext(PlansContext);
+  const { planCount, SavedCount, setIsActive } = useContext(PlansContext);
+  const [isActive, setisActive] = useState<string>("workout");
 
   const PlanSavedLinks = (
     <>
       <Link
         href="/my-plan"
         className="flex items-center gap-1.5 rounded-full px-2.5 py-2.5 text-md lg:text-xl text-gray-300 transition hover:bg-[#191c1e] hover:text-white"
+        onClick={()=>setIsActive("Plan")}
       >
         <h1>Plan</h1>
         <h1 className="flex items-center justify-center rounded-full bg-[#ccff00] px-2 py-1 text-[10px] font-bold text-black">
@@ -24,6 +25,7 @@ function NavBar() {
       <Link
         href="/my-plan/saved/"
         className="flex items-center gap-1.5 rounded-full px-2.5 py-2.5 text-md lg:text-xl text-gray-300 transition hover:bg-[#191c1e] hover:text-white"
+        onClick={()=>setIsActive("Saved")}
       >
         <h1>Saved</h1>
         <h1 className="flex items-center justify-center rounded-full border border-gray-600 px-2 py-1 text-[10px] text-gray-300">
@@ -37,14 +39,19 @@ function NavBar() {
       <li>
         <Link
           href="/"
-          className="rounded-full bg-[#1d2a0d] px-4 py-1 text-[#ccff00]"
+          className={`rounded-full px-4 py-1 cursor-pointer ${isActive === "workout" ? "bg-[#1d2a0d] text-[#ccff00]" : "text-gray-400"}`}
+          onClick={() => setisActive("workout")}
         >
           Workouts
         </Link>
       </li>
 
       <li>
-        <Link href='/my-plan' className="px-4 py-1 text-gray-400 hover:text-white">
+        <Link
+          href="/my-plan"
+          className={`rounded-full px-4 py-1 cursor-pointer ${isActive === "my-plan" ? "bg-[#1d2a0d] text-[#ccff00]" : "text-gray-400"}`}
+          onClick={() => setisActive("my-plan")}
+        >
           My Plan
         </Link>
       </li>

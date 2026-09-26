@@ -5,8 +5,9 @@ import { Clock, Flame, Star, Check, X } from "lucide-react";
 import { useContext } from "react";
 import { PlansContext } from "@/app/context/PlansContext";
 import { IWorkOutType } from "@/app/types/DataType";
+import { toast, Bounce } from "react-toastify";
 
-function PlanItemCard() {
+function PlanItemCard({ workout }: { workout: IWorkOutType }) {
   const {
     TodayPlan,
     setTodayPlan,
@@ -15,42 +16,31 @@ function PlanItemCard() {
     setPlanCalories,
   } = useContext(PlansContext);
 
-  const handleRemove = (item: IWorkOutType) => {
-    setTodayPlan(TodayPlan.filter((workout) => workout.id !== item.id));
+  const handleRemove = () => {
+    setTodayPlan(TodayPlan.filter((item) => item.id !== workout.id));
     setPlanCount((cnt) => cnt - 1);
-    setPlanMinutes((min) => min - item.duration);
-    setPlanCalories((cal) => cal - item.caloriesBurned);
+    setPlanMinutes((min) => min - workout.duration);
+    setPlanCalories((cal) => cal - workout.caloriesBurned);
+    toast.warn("Remove Today's Plan Item!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
 
-  if (TodayPlan.length === 0) {
-    return (
-      <div className="flex h-60 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-[#24262a] px-4 text-center sm:h-72">
-        <h2 className="text-lg font-bold uppercase text-white sm:text-xl">
-          Nothing here yet
-        </h2>
-        <p className="max-w-xs text-xs text-gray-400 sm:text-sm">
-          Browse the library and add a lift to get today moving.
-        </p>
-        <Link
-          href="/"
-          className="mt-2 rounded-full bg-[#ccff00] px-5 py-2 text-xs font-bold text-black transition hover:brightness-110 sm:text-sm"
-        >
-          Go to workouts
-        </Link>
-      </div>
-    );
-  }
-
-  return TodayPlan.map((item) => (
-    <div
-      key={item.id}
-      className="flex flex-col gap-4 rounded-2xl border border-[#24262a] bg-[#131518] p-4 sm:flex-row sm:items-center sm:justify-between"
-    >
+  return (
+    <div className="flex flex-col gap-4 rounded-2xl border border-[#24262a] bg-[#131518] p-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-4">
         <div className="relative h-16 w-16 overflow-hidden rounded-xl">
           <Image
-            src={item.image}
-            alt={item.name}
+            src={workout.image}
+            alt={workout.name}
             fill
             sizes="64px"
             className="object-cover"
@@ -59,19 +49,19 @@ function PlanItemCard() {
 
         <div className="flex flex-col gap-1">
           <h3 className="text-sm font-bold uppercase text-white sm:text-base">
-            {item.name}
+            {workout.name}
           </h3>
-          <p className="text-xs text-gray-400">{item.equipment}</p>
+          <p className="text-xs text-gray-400">{workout.equipment}</p>
 
           <div className="flex items-center gap-3 text-xs text-gray-400">
             <p className="flex items-center gap-1">
-              <Clock size={12} /> {item.duration} min
+              <Clock size={12} /> {workout.duration} min
             </p>
             <p className="flex items-center gap-1">
-              <Flame size={12} /> {item.caloriesBurned} kcal
+              <Flame size={12} /> {workout.caloriesBurned} kcal
             </p>
             <p className="flex items-center gap-1">
-              <Star size={12} /> {item.rating}
+              <Star size={12} /> {workout.rating}
             </p>
           </div>
         </div>
@@ -79,7 +69,7 @@ function PlanItemCard() {
 
       <div className="flex items-center justify-end gap-2">
         <Link
-          href={`/workout/${item.id}`}
+          href={`/workout/${workout.id}`}
           className="rounded-full border border-[#24262a] px-4 py-1.5 text-xs font-semibold text-white transition hover:bg-[#191c1e] sm:text-sm"
         >
           View Details
@@ -91,15 +81,14 @@ function PlanItemCard() {
         </button>
 
         <button
-          aria-label="Remove from plan"
-          onClick={() => handleRemove(item)}
+          onClick={handleRemove}
           className="rounded-full p-1.5 text-gray-500 transition hover:bg-[#191c1e] hover:text-white"
         >
           <X size={16} />
         </button>
       </div>
     </div>
-  ));
+  );
 }
 
 export default PlanItemCard;

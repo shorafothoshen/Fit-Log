@@ -19,6 +19,10 @@ interface PlansContextType {
   setSavedMinutes: Dispatch<SetStateAction<number>>;
   SavedCalories: number;
   setSavedCalories: Dispatch<SetStateAction<number>>;
+  isActive:string;
+  setIsActive: Dispatch<SetStateAction<string>>;
+  sortBy: "Duration" | "Calories" | "Rating";
+  setSortBy: Dispatch<SetStateAction<"Duration" | "Calories" | "Rating">>;
 }
 
 export const PlansContext = createContext<PlansContextType>({
@@ -37,7 +41,11 @@ export const PlansContext = createContext<PlansContextType>({
   SavedMinutes: 0,
   setSavedMinutes: () =>{},
   SavedCalories: 0,
-  setSavedCalories: () =>{}
+  setSavedCalories: () =>{},
+  isActive:"Plan",
+  setIsActive:() =>{},
+  sortBy: "Duration",
+  setSortBy: () => {},
 });
 
 function PlansProvider({ children }: { children: ReactNode }) {
@@ -49,6 +57,8 @@ function PlansProvider({ children }: { children: ReactNode }) {
   const [ PlanCalories, setPlanCalories ] = useState<number>(0);
   const [ SavedMinutes, setSavedMinutes ] = useState<number>(0);
   const [ SavedCalories, setSavedCalories ] = useState<number>(0);
+  const [isActive, setIsActive] = useState("Plan");
+  const [sortBy, setSortBy] = useState<"Duration" | "Calories" | "Rating">("Duration");
 
   const state = {
     TodayPlan,
@@ -66,7 +76,11 @@ function PlansProvider({ children }: { children: ReactNode }) {
     SavedMinutes,
     setSavedMinutes,
     SavedCalories,
-    setSavedCalories
+    setSavedCalories,
+    isActive,
+    setIsActive,
+    sortBy,
+    setSortBy,
   };
 
   return (

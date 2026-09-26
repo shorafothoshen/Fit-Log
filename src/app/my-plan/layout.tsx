@@ -1,16 +1,21 @@
 "use client";
 import Link from "next/link";
-import React, { ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext } from "react";
 import { PlansContext } from "../context/PlansContext";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-function MyPlanLayOut({ children }: LayoutProps) {
-  const {planCount,SavedCount,PlanMinutes,PlanCalories,SavedMinutes,SavedCalories} = useContext(PlansContext);
-
-  const [isActive, setIsActive] = useState("Plan");
+function MyPlanLayOut({ children }: { children: ReactNode }) {
+  const {
+    planCount,
+    SavedCount,
+    PlanMinutes,
+    PlanCalories,
+    SavedMinutes,
+    SavedCalories,
+    isActive,
+    setIsActive,
+    sortBy,
+    setSortBy,
+  } = useContext(PlansContext);
 
   return (
     <div className="px-4 py-8 lg:px-20 lg:py-12">
@@ -44,12 +49,12 @@ function MyPlanLayOut({ children }: LayoutProps) {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-5 flex flex-row flex-wrap items-center justify-between gap-3">
         <div className="flex w-fit items-center gap-1 rounded-full border border-[#24262a] bg-[#131518] p-1">
           <Link
             href="/my-plan"
             onClick={() => setIsActive("Plan")}
-            className={`rounded-full px-4 py-1.5 text-xs font-semibold transition sm:text-sm ${
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
               isActive === "Plan"
                 ? "bg-[#e5e5e5] text-black"
                 : "text-gray-400 hover:text-white"
@@ -61,7 +66,7 @@ function MyPlanLayOut({ children }: LayoutProps) {
           <Link
             href="/my-plan/saved"
             onClick={() => setIsActive("Saved")}
-            className={`rounded-full px-4 py-1.5 text-xs font-semibold transition sm:text-sm ${
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
               isActive === "Saved"
                 ? "bg-[#e5e5e5] text-black"
                 : "text-gray-400 hover:text-white"
@@ -73,10 +78,14 @@ function MyPlanLayOut({ children }: LayoutProps) {
 
         <div className="flex items-center gap-2">
           <p className="text-xs text-gray-400 sm:text-sm">Sort By</p>
-          <select className="rounded-md border border-[#24262a] bg-[#131518] px-3 py-1.5 text-xs text-white outline-none sm:text-sm">
-            <option>Duration</option>
-            <option>Calories</option>
-            <option>Rating</option>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "Duration" | "Calories" | "Rating")}
+            className="rounded-md border border-[#24262a] bg-[#131518] px-2 py-1.5 text-xs text-white outline-none sm:px-3 sm:text-sm"
+          >
+            <option value="Duration">Duration</option>
+            <option value="Calories">Calories</option>
+            <option value="Rating">Rating</option>
           </select>
         </div>
       </div>

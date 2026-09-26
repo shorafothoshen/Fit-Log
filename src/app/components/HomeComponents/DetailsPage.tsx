@@ -4,6 +4,7 @@ import { Calendar, Bookmark } from "lucide-react";
 import { IWorkOutType } from "@/app/types/DataType";
 import { useContext } from "react";
 import { PlansContext } from "@/app/context/PlansContext";
+import { toast, Bounce } from "react-toastify";
 
 const DetailsPage = ({ data }: { data: IWorkOutType }) => {
   const {
@@ -20,22 +21,71 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
   } = useContext(PlansContext);
 
   const isActivePlan = TodayPlan.some((item) => item.id === data.id);
-const isActiveSaved = savedPlan.some((item) => item.id === data.id);
+  const isActiveSaved = savedPlan.some((item) => item.id === data.id);
 
   const HandleTodayPlan = (Hdata: IWorkOutType) => {
-    if(isActivePlan) return;
+    if (isActivePlan) {
+      toast.error("Not Added Today's Plan!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      return;
+    }
+
     setTodayPlan([...TodayPlan, Hdata]);
     setPlanCount((cnt) => cnt + 1);
     setPlanMinutes((min) => min + Hdata.duration);
     setPlanCalories((cal) => cal + Hdata.caloriesBurned);
+    toast.success("Today's Plan Add Successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
 
   const HandleSavedPlan = (Hdata: IWorkOutType) => {
-    if(isActiveSaved) return;
+    if (isActiveSaved) {
+      toast.error("Not Added Saved Plan!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      return;
+    }
     setSavedPlan([...savedPlan, Hdata]);
     setSavedCount((cnt) => cnt + 1);
     setSavedMinutes((min) => min + Hdata.duration);
     setSavedCalories((cal) => cal + Hdata.caloriesBurned);
+    toast.success("Saved Plan Successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
 
   return (
@@ -142,7 +192,6 @@ const isActiveSaved = savedPlan.some((item) => item.id === data.id);
             <button
               className="flex items-center gap-2 rounded-md bg-[#ccff00] px-4 py-2.5 text-xs font-bold uppercase text-black transition hover:brightness-110 sm:text-sm"
               onClick={() => HandleTodayPlan(data)}
-              disabled={isActivePlan}
             >
               <Calendar size={16} />
               Add to today&apos;s plan
@@ -150,7 +199,6 @@ const isActiveSaved = savedPlan.some((item) => item.id === data.id);
             <button
               className="flex items-center gap-2 rounded-md border border-[#24262a] px-4 py-2.5 text-xs font-bold uppercase text-white transition hover:bg-[#191c1e] sm:text-sm"
               onClick={() => HandleSavedPlan(data)}
-              disabled={isActiveSaved}
             >
               <Bookmark size={16} />
               Save for later

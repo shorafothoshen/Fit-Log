@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ReactNode, useContext } from "react";
+import { ChevronDown } from "lucide-react";
 import { PlansContext } from "../context/PlansContext";
 
 function MyPlanLayOut({ children }: { children: ReactNode }) {
@@ -60,7 +61,7 @@ function MyPlanLayOut({ children }: { children: ReactNode }) {
                 : "text-gray-400 hover:text-white"
             }`}
           >
-            Today's Plan
+            Today&apos;s Plan
           </Link>
 
           <Link
@@ -78,15 +79,21 @@ function MyPlanLayOut({ children }: { children: ReactNode }) {
 
         <div className="flex items-center gap-2">
           <p className="text-xs text-gray-400 sm:text-sm">Sort By</p>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as "Duration" | "Calories" | "Rating")}
-            className="rounded-md border border-[#24262a] bg-[#131518] px-2 py-1.5 text-xs text-white outline-none sm:px-3 sm:text-sm"
-          >
-            <option value="Duration">Duration</option>
-            <option value="Calories">Calories</option>
-            <option value="Rating">Rating</option>
-          </select>
+          <div className="relative">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "Duration" | "Calories" | "Rating")}
+              className="appearance-none rounded-md border border-[#24262a] bg-[#131518] py-1.5 pl-3 pr-7 text-xs text-white outline-none sm:pr-8 sm:text-sm"
+            >
+              <option value="Duration">Duration</option>
+              <option value="Calories">Calories</option>
+              <option value="Rating">Rating</option>
+            </select>
+            <ChevronDown
+              size={14}
+              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+          </div>
         </div>
       </div>
       <div className="mt-6">{children}</div>

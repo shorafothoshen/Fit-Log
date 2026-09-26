@@ -22,11 +22,26 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
 
   const isActivePlan = TodayPlan.some((item) => item.id === data.id);
   const isActiveSaved = savedPlan.some((item) => item.id === data.id);
+  const isPlanFull = TodayPlan.length >= 5;
 
   const HandleTodayPlan = (Hdata: IWorkOutType) => {
+    if (isPlanFull) {
+      toast.warn("Your plan is already full! Remove a lift to add a new one.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      return;
+    }
     if (isActivePlan) {
-      toast.error("Not Added Today's Plan!", {
-        position: "top-center",
+      toast.error("Not Added Today's Plan Again!", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
@@ -43,8 +58,8 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
     setPlanCount((cnt) => cnt + 1);
     setPlanMinutes((min) => min + Hdata.duration);
     setPlanCalories((cal) => cal + Hdata.caloriesBurned);
-    toast.success("Today's Plan Add Successfully!", {
-      position: "top-center",
+    toast.success(`${Hdata.name} Today's Plan Add Successfully!`, {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: false,
@@ -58,8 +73,8 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
 
   const HandleSavedPlan = (Hdata: IWorkOutType) => {
     if (isActiveSaved) {
-      toast.error("Not Added Saved Plan!", {
-        position: "top-center",
+      toast.error("Not Added Saved Plan Again!", {
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
@@ -75,8 +90,8 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
     setSavedCount((cnt) => cnt + 1);
     setSavedMinutes((min) => min + Hdata.duration);
     setSavedCalories((cal) => cal + Hdata.caloriesBurned);
-    toast.success("Saved Plan Successfully!", {
-      position: "top-center",
+    toast.success(`${Hdata.name} Saved Plan Successfully!`, {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: false,
@@ -190,11 +205,12 @@ const DetailsPage = ({ data }: { data: IWorkOutType }) => {
 
           <div className="flex flex-wrap gap-3 pt-2">
             <button
-              className="flex items-center gap-2 rounded-md bg-[#ccff00] px-4 py-2.5 text-xs font-bold uppercase text-black transition hover:brightness-110 sm:text-sm"
+              className="flex items-center gap-2 rounded-md bg-[#ccff00] px-4 py-2.5 text-xs font-bold uppercase text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:brightness-100 sm:text-sm"
               onClick={() => HandleTodayPlan(data)}
+              disabled={isPlanFull}
             >
               <Calendar size={16} />
-              Add to today&apos;s plan
+              {isPlanFull ? "Plan is full" : "Add to today's plan"}
             </button>
             <button
               className="flex items-center gap-2 rounded-md border border-[#24262a] px-4 py-2.5 text-xs font-bold uppercase text-white transition hover:bg-[#191c1e] sm:text-sm"

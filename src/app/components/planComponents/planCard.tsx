@@ -16,13 +16,27 @@ function PlanItemCard({ workout }: { workout: IWorkOutType }) {
     setPlanCalories,
   } = useContext(PlansContext);
 
+  const handleMarkAsDone = () => {
+    toast.success(`${workout.name} marked as done!`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+
   const handleRemove = () => {
     setTodayPlan(TodayPlan.filter((item) => item.id !== workout.id));
     setPlanCount((cnt) => cnt - 1);
     setPlanMinutes((min) => min - workout.duration);
     setPlanCalories((cal) => cal - workout.caloriesBurned);
     toast.warn("Remove Today's Plan Item!", {
-      position: "top-center",
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: false,
@@ -75,7 +89,10 @@ function PlanItemCard({ workout }: { workout: IWorkOutType }) {
           View Details
         </Link>
 
-        <button className="flex items-center gap-1.5 rounded-full bg-[#ccff00] px-4 py-1.5 text-xs font-bold text-black transition hover:brightness-110 sm:text-sm">
+        <button
+          onClick={handleMarkAsDone}
+          className="flex items-center gap-1.5 rounded-full bg-[#ccff00] px-4 py-1.5 text-xs font-bold text-black transition hover:brightness-110 sm:text-sm"
+        >
           <Check size={14} />
           Mark as Done
         </button>

@@ -1,27 +1,33 @@
+"use client";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import Link from "next/link";
+import { useContext } from "react";
+import { PlansContext } from "@/app/context/PlansContext";
 
 function NavBar() {
+
+  const {planCount,SavedCount} = useContext(PlansContext);
+
   const PlanSavedLinks = (
     <>
       <Link
-        href=""
+        href="/my-plan"
         className="flex items-center gap-1.5 rounded-full px-2.5 py-2.5 text-md lg:text-xl text-gray-300 transition hover:bg-[#191c1e] hover:text-white"
       >
         <h1>Plan</h1>
         <h1 className="flex items-center justify-center rounded-full bg-[#ccff00] px-2 py-1 text-[10px] font-bold text-black">
-          0
+          {planCount}
         </h1>
       </Link>
 
       <Link
-        href=""
+        href="/my-plan/saved/"
         className="flex items-center gap-1.5 rounded-full px-2.5 py-2.5 text-md lg:text-xl text-gray-300 transition hover:bg-[#191c1e] hover:text-white"
       >
         <h1>Saved</h1>
         <h1 className="flex items-center justify-center rounded-full border border-gray-600 px-2 py-1 text-[10px] text-gray-300">
-          0
+          {SavedCount}
         </h1>
       </Link>
     </>
@@ -30,7 +36,7 @@ function NavBar() {
     <>
       <li>
         <Link
-          href=""
+          href="/"
           className="rounded-full bg-[#1d2a0d] px-4 py-1 text-[#ccff00]"
         >
           Workouts
@@ -38,7 +44,7 @@ function NavBar() {
       </li>
 
       <li>
-        <Link href="" className="px-4 py-1 text-gray-400 hover:text-white">
+        <Link href='/my-plan' className="px-4 py-1 text-gray-400 hover:text-white">
           My Plan
         </Link>
       </li>

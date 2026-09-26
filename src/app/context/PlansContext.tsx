@@ -23,6 +23,8 @@ interface PlansContextType {
   setIsActive: Dispatch<SetStateAction<string>>;
   sortBy: "Duration" | "Calories" | "Rating";
   setSortBy: Dispatch<SetStateAction<"Duration" | "Calories" | "Rating">>;
+  isManuActive: string;
+  setIsManuActive: Dispatch<SetStateAction<string>>;
 }
 
 export const PlansContext = createContext<PlansContextType>({
@@ -46,6 +48,8 @@ export const PlansContext = createContext<PlansContextType>({
   setIsActive:() =>{},
   sortBy: "Duration",
   setSortBy: () => {},
+  isManuActive: "workout",
+  setIsManuActive: () => {},
 });
 
 function PlansProvider({ children }: { children: ReactNode }) {
@@ -59,6 +63,7 @@ function PlansProvider({ children }: { children: ReactNode }) {
   const [ SavedCalories, setSavedCalories ] = useState<number>(0);
   const [isActive, setIsActive] = useState("Plan");
   const [sortBy, setSortBy] = useState<"Duration" | "Calories" | "Rating">("Duration");
+  const [isManuActive, setIsManuActive] = useState<string>("workout");
 
   const state = {
     TodayPlan,
@@ -81,6 +86,8 @@ function PlansProvider({ children }: { children: ReactNode }) {
     setIsActive,
     sortBy,
     setSortBy,
+    isManuActive,
+    setIsManuActive,
   };
 
   return (

@@ -3,7 +3,7 @@ import WorkOutCard from "./components/HomeComponents/WorkOutCard";
 import { IWorkOutType } from "./types/DataType";
 
 const WorkDataFetch=async()=>{
-  const res=await fetch("https://api.abcz.workers.dev/api/fitlog");
+  const res=await fetch(`${process.env.NEXT_PUBLIC_ANALYTICS_BASE_URL}/api/fitlog`);
   return res.json();
 }
 

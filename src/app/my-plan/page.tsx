@@ -5,7 +5,7 @@ import PlanItemCard from "@/app/components/planComponents/planCard";
 import Link from "next/link";
 
 const Page = () => {
-  const { TodayPlan, sortBy } = useContext(PlansContext);
+  const { TodayPlan, sortBy,setIsManuActive } = useContext(PlansContext);
 
   const sortedPlan = [...TodayPlan].sort((a, b) => {
     if (sortBy === "Duration") return a.duration - b.duration;
@@ -26,6 +26,7 @@ const Page = () => {
         <Link
           href="/"
           className="mt-2 rounded-full bg-[#ccff00] px-5 py-2 text-xs font-bold text-black transition hover:brightness-110 sm:text-sm"
+          onClick={() => setIsManuActive("workout")}
         >
           Go to workouts
         </Link>
